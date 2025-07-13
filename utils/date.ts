@@ -1,5 +1,14 @@
-export function formatDate(dateString: string): string {
-  const date = new Date(dateString);
+export function formatDate(dateInput: string | Date): string {
+  const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+  return date.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+export function formatDateTime(dateInput: string | Date): string {
+  const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
   return date.toLocaleDateString(undefined, {
     month: "short",
     day: "numeric",

@@ -29,16 +29,16 @@ export default function DashboardScreen() {
   const [totalPnL, winRate, streakCount] = useMemo(() => {
     if (!trades.length) return [0, 0, 0];
     
-    const total = trades.reduce((sum, trade) => sum + (trade.pnl || 0), 0);
-    const wins = trades.filter(trade => (trade.pnl || 0) > 0).length;
+    const total = trades.reduce((sum, trade) => sum + (trade.pnl ?? 0), 0);
+    const wins = trades.filter(trade => (trade.pnl ?? 0) > 0).length;
     const winRateCalc = (wins / trades.length) * 100;
     
     // Calculate current streak
     let streak = 0;
     let i = trades.length - 1;
-    const isWinning = (trades[i]?.pnl || 0) > 0;
+    const isWinning = (trades[i]?.pnl ?? 0) > 0;
     
-    while (i >= 0 && ((trades[i]?.pnl || 0) > 0) === isWinning) {
+    while (i >= 0 && ((trades[i]?.pnl ?? 0) > 0) === isWinning) {
       streak++;
       i--;
     }

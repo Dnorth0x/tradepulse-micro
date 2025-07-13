@@ -12,6 +12,7 @@ import {
 import { useRouter } from "expo-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as DocumentPicker from "expo-document-picker";
+import type { DocumentPickerResult } from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import * as Haptics from "expo-haptics";
 import { FileText, Upload, Check, AlertCircle } from "lucide-react-native";
@@ -27,7 +28,7 @@ export default function ImportCSVScreen() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   
-  const [file, setFile] = useState<DocumentPicker.DocumentPickerResult | null>(null);
+  const [file, setFile] = useState<DocumentPickerResult | null>(null);
   const [parsedTrades, setParsedTrades] = useState<any[]>([]);
   const [parseError, setParseError] = useState<string | null>(null);
   const [isParsing, setIsParsing] = useState(false);
@@ -283,7 +284,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   codeBlock: {
-    fontFamily: Platform.OS === "ios" ? "Menlo" : "monospace",
+    fontFamily: Platform.select({ ios: "Menlo", default: "monospace" }),
     padding: 12,
     borderRadius: 4,
     fontSize: 12,

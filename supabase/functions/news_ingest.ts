@@ -1,22 +1,29 @@
 // Supabase Edge Function: news_ingest.ts
 // This function fetches market news and generates a digest using AI
 
+// Supabase Edge Function: news_ingest.ts
+// This function fetches market news and generates a digest using AI
+
 // @ts-ignore
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 // @ts-ignore
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 // @ts-ignore
-import { Configuration, OpenAIApi } from "https://esm.sh/openai@3.1.0";
+import { OpenAI } from "https://esm.sh/openai@4.28.0";
 
 // @ts-ignore
-declare const Deno: any;
+declare const Deno: {
+  env: {
+    get(key: string): string | undefined;
+  };
+};
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-serve(async (req: Request) => {
+serve(async (req: any) => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -78,8 +85,7 @@ serve(async (req: Request) => {
     
     // Generate AI digest using OpenAI
     const openaiApiKey = Deno.env.get("OPENAI_API_KEY") || "";
-    const configuration = new Configuration({ apiKey: openaiApiKey });
-    const openai = new OpenAIApi(configuration);
+    const openai = new OpenAI({ apiKey: openaiApiKey });
     
     const newsHeadlines = mockNews.map(n => n.headline).join("\n- ");
     
@@ -95,14 +101,14 @@ serve(async (req: Request) => {
     let digest = "";
     
     try {
-      const completion = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt,
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: prompt }],
         max_tokens: 150,
         temperature: 0.7,
       });
       
-      digest = completion.data.choices[0].text?.trim() || "";
+      digest = completion.choices[0]?.message?.content?.trim() || "";
     } catch (error) {
       console.error("OpenAI API error:", error);
       digest = "Market summary: Fed signals potential rate cuts, boosting equities. Tech earnings exceeded expectations, with major companies reporting strong growth. Oil prices increased due to supply concerns, while Bitcoin rallied past $40,000 on growing institutional adoption. The dollar weakened against major currencies following recent economic data releases.";
@@ -142,7 +148,7 @@ serve(async (req: Request) => {
     console.error("Error:", error);
     
     return new Response(
-      JSON.stringify({ error: (error as Error).message }),
+      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 500 }
     );
   }

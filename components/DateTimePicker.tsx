@@ -7,7 +7,7 @@ import {
   Platform, 
   Modal
 } from "react-native";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
+import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Calendar, Clock } from "lucide-react-native";
 
 import { formatDate, formatTime } from "@/utils/date";
@@ -36,7 +36,7 @@ export function DateTimePicker({ value, onChange, theme, disabled = false }: Dat
     setShow(true);
   };
 
-  const handleChange = (_: any, selectedDate?: Date) => {
+  const handleChange = (_: DateTimePickerEvent, selectedDate?: Date) => {
     if (Platform.OS === "android") {
       setShow(false);
     }
@@ -66,7 +66,7 @@ export function DateTimePicker({ value, onChange, theme, disabled = false }: Dat
       >
         <Calendar size={16} color={theme.colors.textSecondary} />
         <Text style={[styles.dateText, { color: theme.colors.text }]}>
-          {formatDate(value.toISOString())}
+          {formatDate(value)}
         </Text>
       </TouchableOpacity>
       
@@ -103,7 +103,6 @@ export function DateTimePicker({ value, onChange, theme, disabled = false }: Dat
                 display="spinner"
                 onChange={handleChange}
                 style={styles.picker}
-                textColor={theme.colors.text}
               />
               
               <TouchableOpacity
