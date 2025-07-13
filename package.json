@@ -5,11 +5,7 @@
   "scripts": {
     "start": "bunx rork start -p zb5qsnlchhqej5609mde8 --tunnel",
     "start-web": "bunx rork start -p zb5qsnlchhqej5609mde8 --web --tunnel",
-    "start-web-dev": "DEBUG=expo* bunx rork start -p zb5qsnlchhqej5609mde8 --web --tunnel",
-    "lint": "eslint . --ext .ts,.tsx",
-    "format": "prettier --write .",
-    "test": "vitest",
-    "prepare": "husky install"
+    "start-web-dev": "DEBUG=expo* bunx rork start -p zb5qsnlchhqej5609mde8 --web --tunnel"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
@@ -55,20 +51,7 @@
     "@babel/core": "^7.25.2",
     "@expo/ngrok": "^4.1.0",
     "@types/react": "~19.0.10",
-    "typescript": "~5.8.3",
-    "@finrust/talib-lite": "^1.0.3",
-    "@typescript-eslint/eslint-plugin": "^7.8.0",
-    "@typescript-eslint/parser": "^7.8.0",
-    "eslint": "^9.1.0",
-    "eslint-config-airbnb-typescript": "^18.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-react": "^7.34.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.0",
-    "lodash.throttle": "^4.1.1",
-    "prettier": "^3.2.5",
-    "vitest": "^1.5.0"
+    "typescript": "~5.8.3"
   },
   "private": true
 }

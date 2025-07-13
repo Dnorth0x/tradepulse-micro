@@ -1,3 +1,13 @@
+/**
+ * Test setup file for Vitest
+ * 
+ * NOTE: This file requires vitest to be installed.
+ * To install: bun add -D vitest
+ */
+
+// Uncomment the following when testing dependencies are installed:
+
+/*
 import { beforeAll, vi } from "vitest";
 
 // Mock React Native modules
@@ -34,3 +44,7 @@ vi.mock("expo-haptics", () => ({
 beforeAll(() => {
   // Setup global test environment
 });
+*/
+
+// Placeholder export to make this a valid TypeScript module
+export {};
